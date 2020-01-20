@@ -3,10 +3,12 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
 class User implements UserInterface
 {
@@ -49,7 +51,7 @@ class User implements UserInterface
     private $birthdate;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=false)
      */
     private $creation_date;
 
@@ -163,7 +165,6 @@ class User implements UserInterface
     public function setBirthdate(?\DateTimeInterface $birthdate): self
     {
         $this->birthdate = $birthdate;
-
         return $this;
     }
 
@@ -174,6 +175,7 @@ class User implements UserInterface
 
     public function setCreationDate(\DateTimeInterface $creation_date): self
     {
+        $creation_date = $this->getDateTime();
         $this->creation_date = $creation_date;
 
         return $this;
@@ -185,5 +187,9 @@ class User implements UserInterface
     public function setDatetime() {
         // update the modified time
         $this->setCreationDate(new \DateTime());
+    }
+
+    public function getDateTime(){
+        return new \DateTime();
     }
 }
