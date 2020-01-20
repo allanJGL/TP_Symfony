@@ -57,7 +57,7 @@ class User implements UserInterface
 
     public function __construct()
     {
-      $this->creation_date         = new \Datetime();
+      $this->creation_date = new \Datetime();
     }
 
 
