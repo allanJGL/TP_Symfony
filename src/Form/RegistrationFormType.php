@@ -45,8 +45,7 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('firstName')
             ->add('lastName')
-            ->add('birthdate', DateType::class, [
-            ])
+            ->add('birthdate', DateType::class)
         ;
     }
 

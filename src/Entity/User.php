@@ -51,9 +51,15 @@ class User implements UserInterface
     private $birthdate;
 
     /**
-     * @ORM\Column(type="date", nullable=false)
+     * @ORM\Column(type="date")
      */
     private $creation_date;
+
+    public function __construct()
+    {
+      $this->creation_date         = new \Datetime();
+    }
+
 
     public function getId(): ?int
     {
@@ -165,6 +171,7 @@ class User implements UserInterface
     public function setBirthdate(?\DateTimeInterface $birthdate): self
     {
         $this->birthdate = $birthdate;
+
         return $this;
     }
 
@@ -175,7 +182,6 @@ class User implements UserInterface
 
     public function setCreationDate(\DateTimeInterface $creation_date): self
     {
-        $creation_date = $this->getDateTime();
         $this->creation_date = $creation_date;
 
         return $this;
@@ -187,9 +193,5 @@ class User implements UserInterface
     public function setDatetime() {
         // update the modified time
         $this->setCreationDate(new \DateTime());
-    }
-
-    public function getDateTime(){
-        return new \DateTime();
     }
 }
