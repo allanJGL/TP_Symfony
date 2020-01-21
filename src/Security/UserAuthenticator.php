@@ -100,6 +100,6 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator implements Passwo
 
     protected function getLoginUrl()
     {
-        return $this->urlGenerator->generate('app_login');
+        return $this->urlGenerator->generate('home');
     }
 }

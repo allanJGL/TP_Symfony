@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -57,7 +58,7 @@ class User implements UserInterface
 
     public function __construct()
     {
-      $this->creation_date = new \Datetime();
+        $this->creation_date = new \Datetime();
     }
 
 
@@ -185,13 +186,5 @@ class User implements UserInterface
         $this->creation_date = $creation_date;
 
         return $this;
-    }
-
-    /**
-     * @ORM\PrePersist()
-     */
-    public function setDatetime() {
-        // update the modified time
-        $this->setCreationDate(new \DateTime());
     }
 }
