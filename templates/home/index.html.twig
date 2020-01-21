@@ -3,6 +3,11 @@
 {% block title %}Hello HomeController!{% endblock %}
 
 {% block body %}
+{% if app.user %}
+    <div class="mb-3">
+        You are logged in as {{ app.user.username }}, <a href="{{ path('logout') }}">Logout</a>
+    </div>
+    {% endif %}
     <style>
         .example-wrapper {
             margin: 1em auto;
@@ -23,6 +28,8 @@
             {% for item in videogames %}
                 <li>{{ item.id }} - {{ item.title }} - {{ item.os }} - {{ item.releaseDate|date("Y/m/d") }}</li>
                 <p>{{ item.description }}</p>
+                <a href="/{{item.id}}/edit">Modify</a>
+                <a href="/{{item.id}}">Delete</a>
             {% endfor %}
         </ul>
     </div>
