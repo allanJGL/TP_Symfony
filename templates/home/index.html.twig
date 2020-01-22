@@ -23,7 +23,14 @@
     </style>
 
     <div class="example-wrapper">
-        <h1>Welcome to Steem </h1>
+
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <h1>Welcome {{ user.firstname }} {{ user.lastname }} !</h1>
+        {% else %}
+            <h1>Welcome !</h1>
+        {% endif %}
+
+
         <ul>
             {% for item in videogames %}
                 <li>{{ item.id }} - {{ item.title }} - {{ item.os }} - {{ item.releaseDate|date("Y/m/d") }}</li>

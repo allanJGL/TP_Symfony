@@ -61,27 +61,14 @@ class VideoGameController extends AbstractController
      */
     public function delete(Request $request, Videogame $video)
     {
-        $form = $this->createDeleteForm($video);
-        $form->handleRequest($request);
- 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if (!$video) {
+            throw $this->createNotFoundException('No guest found');
+        }
             $em = $this->getDoctrine()->getManager();
             $em->remove($video);
             $em->flush();
-        }
+        
  
         return $this->redirectToRoute('home');
-    }
-
-    /**
-     * Creates a form to delete a video entity.
-     *
-     */
-    private function createDeleteForm(Videogame $video)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('video_delete', array('idvideo' => $video->getIdvideo())))
-            ->getForm()
-        ;
     }
 }
