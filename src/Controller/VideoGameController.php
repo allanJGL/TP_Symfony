@@ -35,7 +35,7 @@ class VideoGameController extends AbstractController
     }
 
     /**
-     * @Route("/{idvideo}/edit", name="editVideo")
+     * @Route("/edit?id={idvideo}", name="edit", methods={"DELETE", "GET"})
      */
     public function edit(Request $request, Videogame $video): Response
     {
@@ -56,7 +56,7 @@ class VideoGameController extends AbstractController
      /**
      * Deletes a video entity.
      *
-     * @Route("/{idvideo}", name="video_delete")
+     * @Route("/delete?id={idvideo}", name="delete", methods={"GET","HEAD"})
      * 
      */
     public function delete(Request $request)
