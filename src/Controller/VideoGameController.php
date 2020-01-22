@@ -59,16 +59,16 @@ class VideoGameController extends AbstractController
      * @Route("/{idvideo}", name="video_delete")
      * 
      */
-    public function delete(Request $request, Videogame $video)
+    public function delete(Request $request)
     {
-        if (!$video) {
-            throw $this->createNotFoundException('No guest found');
+        $id = $request->query->get('id');
+        if (!$id) {
+            throw $this->createNotFoundException('No video found');
         }
             $em = $this->getDoctrine()->getManager();
+            $video = $em->find(Videogame::class, $id);
             $em->remove($video);
             $em->flush();
-        
- 
         return $this->redirectToRoute('home');
     }
 }
