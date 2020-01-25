@@ -35,8 +35,8 @@
             {% for item in videogames %}
                 <li>{{ item.id }} - {{ item.title }} - {{ item.os }} - {{ item.releaseDate|date("Y/m/d") }}</li>
                 <p>{{ item.description }}</p>
-                <a href="/edit?id={{item.id}}">Modify</a>
-                <a href="/delete?id={{item.id}}">Delete</a>
+                <a href="/edit/video/{{item.id}}">Modify</a>
+                <a href="/delete/video/{{item.id}}">Delete</a>
             {% endfor %}
         </ul>
     </div>

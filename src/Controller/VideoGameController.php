@@ -35,9 +35,9 @@ class VideoGameController extends AbstractController
     }
 
     /**
-     * @Route("/edit?id={idvideo}", name="edit", methods={"DELETE", "GET"})
+     * @Route("/edit/video/{idvideo}", name="edit", methods={"EDIT", "GET"})
      */
-    public function edit(Request $request, Videogame $video): Response
+    public function edit(Request $request): Response
     {
         $editForm = $this->createForm('WebBundle\Form\RegistrationFormVideo', $video);
         $editForm->handleRequest($request);
@@ -54,15 +54,17 @@ class VideoGameController extends AbstractController
         ));
     }
      /**
-     * Deletes a video entity.
+     * Delete a video entity.
      *
-     * @Route("/delete?id={idvideo}", name="delete", methods={"GET","HEAD"})
+     * @Route("/delete/video/{idvideo}", name="delete", methods={"GET","DELETE"})
      * 
      */
     public function delete(Request $request)
     {
-        $id = $request->query->get('id');
-        if (!$id) {
+        $url = $request->server->get('REQUEST_URI');
+        $regex = preg_match_all("#[0-9]# ", $url, $id);
+        $id = $id[0][0];
+        if (!$id || $regex === 0) {
             throw $this->createNotFoundException('No video found');
         }
             $em = $this->getDoctrine()->getManager();
