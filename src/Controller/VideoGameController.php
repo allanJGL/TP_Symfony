@@ -39,16 +39,21 @@ class VideoGameController extends AbstractController
      */
     public function edit(Request $request): Response
     {
+        $url = $request->server->get('REQUEST_URI');
+        $regex = preg_match_all("#[0-9]# ", $url, $id);
+        $id = $id[0][0];
+        if (!$id || $regex === 0) {
+            throw $this->createNotFoundException('No video found');
+        }
         $editForm = $this->createForm('WebBundle\Form\RegistrationFormVideo', $video);
         $editForm->handleRequest($request);
  
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
- 
             return $this->redirectToRoute('video_edit', array('idvideo' => $video->getIdvideo()));
         }
- 
-        return $this->render('video/edit.html.twig', array(
+
+        return $this->render('video/edit.html.twig', array( 
             'video' => $video,
             'edit_form' => $editForm->createView(),
         ));
