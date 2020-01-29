@@ -37,20 +37,19 @@ class VideoGameController extends AbstractController
     }
 
     /**
-    * @Route("/edit/video/{id}", name="edit", methods={"EDIT", "GET"})
+    * @Route("/edit/video/{id}", name="edit")
     */
     public function edit(Request $request, $id): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
         $videoGame = $entityManager->getRepository(Videogame::class)->find($id);
-        $form = $this->createFormBuilder($videoGame);
-        $form
+        $form = $this->createFormBuilder($videoGame)
             ->add('title')
             ->add('os')
             ->add('description')
             ->add('release_date', BirthdayType::class)
             ->getForm();
-
+            $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
             $entityManager->flush();
