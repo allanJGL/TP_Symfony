@@ -8,6 +8,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+use Symfony\Component\Form\FormBuilder;
 
 class VideoGameController extends AbstractController
 {
@@ -35,41 +37,51 @@ class VideoGameController extends AbstractController
     }
 
     /**
-     * @Route("/edit/video/{idvideo}", name="edit", methods={"EDIT", "GET"})
-     */
-    public function edit(Request $request): Response
+    * @Route("/edit/video/{id}", name="edit", methods={"EDIT", "GET"})
+    */
+    public function edit(Request $request, $id): Response
     {
-        $url = $request->server->get('REQUEST_URI');
-        $regex = preg_match_all("#[0-9]# ", $url, $id);
-        $id = $id[0][0];
-        if (!$id || $regex === 0) {
-            throw $this->createNotFoundException('No video found');
-        }
-        $editForm = $this->createForm('WebBundle\Form\RegistrationFormVideo', $video);
-        $editForm->handleRequest($request);
- 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-            return $this->redirectToRoute('video_edit', array('idvideo' => $video->getIdvideo()));
+        $entityManager = $this->getDoctrine()->getManager();
+        $videoGame = $entityManager->getRepository(Videogame::class)->find($id);
+        $form = $this->createFormBuilder($videoGame);
+        $form
+            ->add('title')
+            ->add('os')
+            ->add('description')
+            ->add('release_date', BirthdayType::class)
+            ->getForm();
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $entityManager->flush();
+
+            return $this->redirectToRoute('home');
         }
 
-        return $this->render('video/edit.html.twig', array( 
-            'video' => $video,
-            'edit_form' => $editForm->createView(),
-        ));
+        return $this->render('registration/registerVideo.html.twig', [
+            'registrationForm' => $form->createView(),
+        ]);
     }
+    //     $entityManager = $this->getDoctrine()->getManager();
+    //     $video = $entityManager->getRepository(Videogame::class)->find($id);
+    //     if (!$video) {
+    //         throw $this->createNotFoundException(
+    //             'No video found for id '.$id
+    //         );
+    //     }
+    //     $entityManager->flush();
+    //    return $this->redirectToRoute('registerVideo');
+    // }
+    
      /**
      * Delete a video entity.
      *
-     * @Route("/delete/video/{idvideo}", name="delete", methods={"GET","DELETE"})
+     * @Route("/delete/video/{id}", name="delete", methods={"GET","DELETE"})
      * 
      */
-    public function delete(Request $request)
+    public function delete(Request $request, $id)
     {
-        $url = $request->server->get('REQUEST_URI');
-        $regex = preg_match_all("#[0-9]# ", $url, $id);
-        $id = $id[0][0];
-        if (!$id || $regex === 0) {
+        if (!$id) {
             throw $this->createNotFoundException('No video found');
         }
             $em = $this->getDoctrine()->getManager();
