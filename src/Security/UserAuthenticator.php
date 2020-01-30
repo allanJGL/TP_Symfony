@@ -39,7 +39,7 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator implements Passwo
 
     public function supports(Request $request)
     {
-        return 'login' === $request->attributes->get('_route')
+        return 'app_login' === $request->attributes->get('_route')
             && $request->isMethod('POST');
     }
 
@@ -93,12 +93,11 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator implements Passwo
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
-         return new RedirectResponse($this->urlGenerator->generate('home'));
-       // throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+        return new RedirectResponse($this->urlGenerator->generate('home'));
     }
 
     protected function getLoginUrl()
     {
-        return $this->urlGenerator->generate('login');
+        return $this->urlGenerator->generate('app_login');
     }
 }

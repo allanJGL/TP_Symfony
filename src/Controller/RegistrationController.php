@@ -14,7 +14,7 @@ use Psr\Log\LoggerInterface;
 class RegistrationController extends AbstractController
 {
     /**
-     * @Route("/register", name="register")
+     * @Route("/register", name="app_register")
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, LoggerInterface $logger): Response
     {
@@ -37,7 +37,7 @@ class RegistrationController extends AbstractController
             $logger->info($user->getUsername() . ' is registered.');
             $this->addFlash('success', 'User Created!');
 
-            return $this->redirectToRoute('login');
+            return $this->redirectToRoute('app_login');
         }
 
         return $this->render('registration/register.html.twig', [
