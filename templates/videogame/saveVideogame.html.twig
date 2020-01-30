@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+{% block title %}Save Videogame{% endblock %}
+
+{% block body %}
+
+
+    <div class="container">
+        <div class="col-sm-8 mx-auto">
+            <h1>Save a videogame</h1>
+
+            {{ form_start(registrationForm) }}
+            {{ form_row(registrationForm.title) }}
+            {{ form_row(registrationForm.os) }}
+            {{ form_row(registrationForm.description) }}
+            {{ form_row(registrationForm.release_date) }}
+
+            <div class="row">
+                <button class="btn btn-primary mx-auto">Save</button>
+            </div>
+            {{ form_end(registrationForm) }}
+        </div>
+    </div>
+{% endblock %}

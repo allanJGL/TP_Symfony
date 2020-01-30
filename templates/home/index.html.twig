@@ -1,8 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
-
 {% block body %}
+    {% if app.user %}
+    {% endif %}
     <style>
         .example-wrapper {
             margin: 1em auto;
@@ -18,12 +18,25 @@
     </style>
 
     <div class="example-wrapper">
-        <h1>Welcome to Steem </h1>
+
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <h1>Welcome {{ user.firstname }} {{ user.lastname }} !</h1>
+        {% else %}
+            <h1>Welcome !</h1>
+        {% endif %}
+
+
         <ul>
             {% for item in videogames %}
                 <li>{{ item.id }} - {{ item.title }} - {{ item.os }} - {{ item.releaseDate|date("Y/m/d") }}</li>
                 <p>{{ item.description }}</p>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a href="/edit/video/{{ item.id }}">Modify</a>
+                    <a href="/delete/video/{{ item.id }}">Delete</a>
+                {% endif %}
             {% endfor %}
         </ul>
     </div>
+    </body>
+    </html>
 {% endblock %}
