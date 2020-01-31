@@ -82,22 +82,4 @@ class VideogameController extends AbstractController
 
         return $this->redirectToRoute('home');
     }
-
-    /**
-     * Delete a video entity.
-     *
-     * @Route("/showVideo/{id}", name="show")
-     *
-     */
-    public function show(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $videogame = $em->find(Videogame::class, $id); 
-        return $this->render('videogame/showVideogame.html.twig', array(
-            'title' => $videogame->getTitle(),
-            'os' => $videogame->getOs(),
-            'description' => $videogame->getDescription(),
-            'release_date' => $videogame->getReleaseDate(),
-        ));
-    }
 }

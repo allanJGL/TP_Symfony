@@ -33,7 +33,6 @@
                 {% if is_granted('ROLE_ADMIN') %}
                     <a href="/edit/video/{{ item.id }}">Modify</a>
                     <a href="/delete/video/{{ item.id }}">Delete</a>
-                    <a href="/showVideo/{{ item.id }}">Show</a>
                 {% endif %}
             {% endfor %}
         </ul>
