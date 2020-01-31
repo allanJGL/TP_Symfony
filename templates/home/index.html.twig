@@ -22,10 +22,10 @@
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
             <h1>Welcome {{ user.firstname }} {{ user.lastname }} !</h1>
         {% else %}
-            <h1>Welcome !</h1>
+            <h1>Welcome {{ user.firstname }} {{ user.lastname }} !</h1>
         {% endif %}
 
-
+        <a href="/showUsers">show Users</a>
         <ul>
             {% for item in videogames %}
                 <li>{{ item.id }} - {{ item.title }} - {{ item.os }} - {{ item.releaseDate|date("Y/m/d") }}</li>
@@ -33,6 +33,7 @@
                 {% if is_granted('ROLE_ADMIN') %}
                     <a href="/edit/video/{{ item.id }}">Modify</a>
                     <a href="/delete/video/{{ item.id }}">Delete</a>
+                    <a href="/showVideo/{{ item.id }}">Show</a>
                 {% endif %}
             {% endfor %}
         </ul>

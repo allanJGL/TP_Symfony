@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+{% block title %}Save Videogame{% endblock %}
+
+{% block body %}
+
+
+    <div class="container">
+        <div class="col-sm-8 mx-auto">
+            <ul>
+            {% for user in users %}
+                <li>
+                    <span>Lastname : {{ user.lastname }}</span>
+                    <span>Fisrtname : {{ user.firstname }}</span>
+                    <br>
+                    <span>Birthdate : {{ user.birthdate|date("d/m/Y") }}</span>
+                    {# <span>role : {{ user.roles }}</span> #}
+                    <br>
+                    <a href="/showUser/{{ user.id }}">Show this user</a>
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+        <a href="/" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Retour</a>
+    </div>
+    
+{% endblock %}

@@ -5,10 +5,17 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\IsTrue;
 use Psr\Log\LoggerInterface;
 
 class RegistrationController extends AbstractController
@@ -44,13 +51,14 @@ class RegistrationController extends AbstractController
             'registrationForm' => $form->createView(),
         ]);
     }
-    /**
-    * @Route("/edit/user/{id}", name="editUser")
-    */
+
+     /**
+     * @Route("/editUser/{id}", name="editUser")
+     */
     public function edit(Request $request, $id): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $user = $entityManager->getRepository(RegistrationFormType::class)->find($id);
+        $user = $entityManager->getRepository(User::class)->find($id);
         $form = $this->createFormBuilder($user)
         ->add('email')
         ->add('agreeTerms', CheckboxType::class, [
@@ -81,16 +89,27 @@ class RegistrationController extends AbstractController
         ->add('lastName')
         ->add('birthdate', BirthdayType::class)
             ->getForm();
-            $form->handleRequest($request);
+        $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-
             $entityManager->flush();
-
+            // $this->addFlash('success your account was edited.');
             return $this->redirectToRoute('home');
         }
 
-        return $this->render('registration/registerVideo.html.twig', [
+        return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/showUsers", name="showUsers")
+     */
+    public function show(Request $request): Response
+    {
+        $em = $this->getDoctrine()->getManager()->getRepository(User::class);
+        $users = $em->findAll(); 
+        return $this->render('registration/showUsers.html.twig', array(
+            'users' => $users,
+        ));
     }
 }
