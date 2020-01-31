@@ -37,7 +37,7 @@ class VideoGameController extends AbstractController
     }
 
     /**
-    * @Route("/edit/video/{id}", name="edit")
+    * @Route("/edit/video/{id}", name="editVideo")
     */
     public function edit(Request $request, $id): Response
     {

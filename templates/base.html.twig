@@ -29,13 +29,16 @@
          {% if is_granted('IS_AUTHENTICATED_FULLY') %}
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
+                    <a class="nav-link" href="/edit/user/1">ModifyAccount</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="/#">Account</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/registerVideo">register Video</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/logout">Logout</a>
+                    <a class="nav-link" href="/">Logout</a>
                 </li>
             </ul>
         {% else %}
