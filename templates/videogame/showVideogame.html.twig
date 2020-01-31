@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+{% block title %}Save Videogame{% endblock %}
+
+{% block body %}
+
+
+    <div class="container">
+        <div class="col-sm-8 mx-auto">
+                <h1>Titre : {{ title }}, {{ release_date|date("d/m/Y") }}</h1>
+                <span>type d'os : {{ os }}</span>
+                <p>Description : {{ description }}</p>
+        </div>
+        <a href="/" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Retour</a>
+        
+    </div>
+    
+{% endblock %}
