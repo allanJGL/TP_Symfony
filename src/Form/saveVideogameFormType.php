@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 
-class RegistrationFormVideo extends AbstractType
+class saveVideogameFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {

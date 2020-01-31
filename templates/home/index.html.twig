@@ -1,12 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
-
 {% block body %}
-{% if app.user %}
-    <div class="mb-3">
-        You are logged in as {{ app.user.username }}, <a href="{{ path('logout') }}">Logout</a>
-    </div>
+    {% if app.user %}
     {% endif %}
     <style>
         .example-wrapper {
@@ -35,9 +30,13 @@
             {% for item in videogames %}
                 <li>{{ item.id }} - {{ item.title }} - {{ item.os }} - {{ item.releaseDate|date("Y/m/d") }}</li>
                 <p>{{ item.description }}</p>
-                <a href="/edit/video/{{item.id}}">Modify</a>
-                <a href="/delete/video/{{item.id}}">Delete</a>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a href="/edit/video/{{ item.id }}">Modify</a>
+                    <a href="/delete/video/{{ item.id }}">Delete</a>
+                {% endif %}
             {% endfor %}
         </ul>
     </div>
+    </body>
+    </html>
 {% endblock %}
