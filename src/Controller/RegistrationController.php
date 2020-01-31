@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Editor;
 use App\Form\RegistrationFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
@@ -102,14 +103,28 @@ class RegistrationController extends AbstractController
     }
 
     /**
-     * @Route("/showUsers", name="showUsers")
+     * @Route("/showEditors", name="showEditors")
      */
     public function show(Request $request): Response
     {
-        $em = $this->getDoctrine()->getManager()->getRepository(User::class);
-        $users = $em->findAll(); 
-        return $this->render('registration/showUsers.html.twig', array(
-            'users' => $users,
+        $em = $this->getDoctrine()->getManager()->getRepository(Editor::class);
+        $editors = $em->findAll(); 
+        return $this->render('registration/showEditors.html.twig', array(
+            'editors' => $editors,
+        ));
+    }
+
+    /**
+     * @Route("/showEditor/{id}", name="showEditor")
+     */
+    public function showEditor(Request $request, $id): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $editor = $entityManager->getRepository(Editor::class)->find($id);
+        $form = $this->createFormBuilder($editor);
+        return $this->render('videogame/showEditorVideos.html.twig', array(
+            'name' => $editor->getName(),
+            'nationality' => $editor->getNationality(),
         ));
     }
 }

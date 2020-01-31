@@ -25,7 +25,7 @@
             <h1>Welcome {{ user.firstname }} {{ user.lastname }} !</h1>
         {% endif %}
 
-        <a href="/showUsers">show Users</a>
+        <a href="/showEditors">show Editors</a>
         <ul>
             {% for item in videogames %}
                 <li>{{ item.id }} - {{ item.title }} - {{ item.os }} - {{ item.releaseDate|date("Y/m/d") }}</li>
