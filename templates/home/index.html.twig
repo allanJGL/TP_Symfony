@@ -22,7 +22,7 @@
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
             <h1>Welcome {{ user.firstname }} {{ user.lastname }} !</h1>
         {% else %}
-            <h1>Welcome !</h1>
+            <h1>Welcome {{ user.firstname }} {{ user.lastname }} !</h1>
         {% endif %}
 
 

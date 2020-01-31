@@ -32,7 +32,7 @@ class SecurityController extends AbstractController
     public function logout()
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        return $this->redirectToRoute('/');
+        return $this->redirectToRoute('/login');
         throw new \Exception('This method can be blank - it will be intercepted by the logout key on your firewall');
     }
 
