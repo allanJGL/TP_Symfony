@@ -100,4 +100,16 @@ class RegistrationController extends AbstractController
             'registrationForm' => $form->createView(),
         ]);
     }
+
+    /**
+     * @Route("/showUsers", name="showUsers")
+     */
+    public function show(Request $request): Response
+    {
+        $em = $this->getDoctrine()->getManager()->getRepository(User::class);
+        $users = $em->findAll(); 
+        return $this->render('registration/showUsers.html.twig', array(
+            'users' => $users,
+        ));
+    }
 }
