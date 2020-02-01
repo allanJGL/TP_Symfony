@@ -18,10 +18,10 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Psr\Log\LoggerInterface;
 
-class RegistrationController extends AbstractController
+class UserController extends AbstractController
 {
     /**
-     * @Route("/register", name="app_register")
+     * @Route("/new/user", name="app_register")
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, LoggerInterface $logger): Response
     {
@@ -47,16 +47,17 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        return $this->render('registration/register.html.twig', [
+        return $this->render('security/account.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
     }
 
      /**
-     * @Route("/editUser/{id}", name="editUser")
+     * @Route("/edit/user/{id}", name="editUser")
      */
     public function edit(Request $request, $id): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $entityManager = $this->getDoctrine()->getManager();
         $user = $entityManager->getRepository(User::class)->find($id);
         $form = $this->createFormBuilder($user)
@@ -96,7 +97,7 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-        return $this->render('registration/register.html.twig', [
+        return $this->render('security/account.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
     }
