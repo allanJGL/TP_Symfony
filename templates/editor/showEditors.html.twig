@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% block title %}Save Videogame{% endblock %}
+{% block title %}Editors{% endblock %}
 
 {% block body %}
 
@@ -12,7 +12,7 @@
                     <span>Name : {{ editor.name }}</span>
                     <span>Nationnality : {{ editor.nationality }}</span>
                     <br>
-                    <a href="/showEditor/{{ editor.id }}">Show this editor</a>
+                    <a href="/editor/{{ editor.id }}">Show this editor</a>
                 </li>
             {% endfor %}
             </ul>

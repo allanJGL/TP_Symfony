@@ -9,3 +9,7 @@
 ```docker-compose exec web php bin/console make:migration```
 
 ```docker-compose exec web php bin/console doctrine:migration:migrate```
+
+## Commande création admin
+
+``` php bin/console app:create-admin {email} {password}```

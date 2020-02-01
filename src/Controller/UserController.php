@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Entity\Editor;
 use App\Form\RegistrationFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
@@ -19,10 +18,10 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Psr\Log\LoggerInterface;
 
-class RegistrationController extends AbstractController
+class UserController extends AbstractController
 {
     /**
-     * @Route("/register", name="app_register")
+     * @Route("/new/user", name="app_register")
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, LoggerInterface $logger): Response
     {
@@ -48,16 +47,17 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        return $this->render('registration/register.html.twig', [
+        return $this->render('security/account.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
     }
 
      /**
-     * @Route("/editUser/{id}", name="editUser")
+     * @Route("/edit/user/{id}", name="editUser")
      */
     public function edit(Request $request, $id): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $entityManager = $this->getDoctrine()->getManager();
         $user = $entityManager->getRepository(User::class)->find($id);
         $form = $this->createFormBuilder($user)
@@ -97,34 +97,8 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-        return $this->render('registration/register.html.twig', [
+        return $this->render('security/account.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
-    }
-
-    /**
-     * @Route("/showEditors", name="showEditors")
-     */
-    public function show(Request $request): Response
-    {
-        $em = $this->getDoctrine()->getManager()->getRepository(Editor::class);
-        $editors = $em->findAll(); 
-        return $this->render('registration/showEditors.html.twig', array(
-            'editors' => $editors,
-        ));
-    }
-
-    /**
-     * @Route("/showEditor/{id}", name="showEditor")
-     */
-    public function showEditor(Request $request, $id): Response
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-        $editor = $entityManager->getRepository(Editor::class)->find($id);
-        $form = $this->createFormBuilder($editor);
-        return $this->render('videogame/showEditorVideos.html.twig', array(
-            'name' => $editor->getName(),
-            'nationality' => $editor->getNationality(),
-        ));
     }
 }

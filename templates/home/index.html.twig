@@ -1,8 +1,18 @@
 {% extends 'base.html.twig' %}
 
+
 {% block body %}
-    {% if app.user %}
-    {% endif %}
+
+    {% block title %}
+        <title>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                Welcome {{ user.firstname }} {{ user.lastname }}!
+            {% else %}
+                Welcome!
+            {% endif %}
+        </title>
+    {% endblock %}
+
     <style>
         .example-wrapper {
             margin: 1em auto;
@@ -20,23 +30,38 @@
     <div class="example-wrapper">
 
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            <h1>Welcome {{ user.firstname }} {{ user.lastname }} !</h1>
+            {% if user.firstname == "" or user.lastname == "" %}
+                <h1>Welcome {{ user.email }} !</h1>
+            {% else %}
+                <h1>Welcome {{ user.firstname }} {{ user.lastname }} !</h1>
+            {% endif %}
         {% else %}
-            <h1>Welcome {{ user.firstname }} {{ user.lastname }} !</h1>
+            <h1>Welcome!</h1>
         {% endif %}
-
-        <a href="/showEditors">show Editors</a>
         <ul>
             {% for item in videogames %}
-                <li>{{ item.id }} - {{ item.title }} - {{ item.os }} - {{ item.releaseDate|date("Y/m/d") }}</li>
-                <p>{{ item.description }}</p>
-                {% if is_granted('ROLE_ADMIN') %}
-                    <a href="/edit/video/{{ item.id }}">Modify</a>
-                    <a href="/delete/video/{{ item.id }}">Delete</a>
-                {% endif %}
-                <a href="/showVideo/{{ item.id }}">Show</a>
+                <li>
+                    <div class="col-12 ml-auto">
+                        <div class="row">
+                            {{ item.id }} - {{ item.title }} - {{ item.os }} - {{ item.releaseDate|date("Y/m/d") }}
+                        </div>
+                        <div class="row">
+                            <p>{{ item.description }}</p>
+                        </div>
+                        <div class="row">
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                <a href="/videogame/{{ item.id }}">Details</a> &nbsp;
+                            {% endif %}
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <a href="/edit/videogame/{{ item.id }}">Modify</a> &nbsp;
+                                <a href="/delete/videogame/{{ item.id }}">Delete</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </li>
             {% endfor %}
         </ul>
+        <a href="/editors">Show Editors</a>
     </div>
     </body>
     </html>

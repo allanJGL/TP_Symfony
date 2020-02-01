@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Videogame;
-use App\Form\saveVideogameFormType;
+use App\Form\SaveVideogameFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,8 +17,9 @@ class VideogameController extends AbstractController
      */
     public function newVideogame(Request $request): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
         $video = new Videogame();
-        $form = $this->createForm(saveVideogameFormType::class, $video);
+        $form = $this->createForm(SaveVideogameFormType::class, $video);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -35,7 +36,7 @@ class VideogameController extends AbstractController
     }
 
     /**
-     * @Route("/edit/video/{id}", name="edit")
+     * @Route("/edit/videogame/{id}", name="edit")
      */
     public function edit(Request $request, $id): Response
     {
@@ -65,7 +66,7 @@ class VideogameController extends AbstractController
     /**
      * Delete a video entity.
      *
-     * @Route("/delete/video/{id}", name="delete", methods={"GET","DELETE"})
+     * @Route("/delete/videogame/{id}", name="delete", methods={"GET","DELETE"})
      *
      */
     public function delete(Request $request, $id)
@@ -84,9 +85,9 @@ class VideogameController extends AbstractController
     }
 
     /**
-     * Delete a video entity.
+     * Show a video entity.
      *
-     * @Route("/showVideo/{id}", name="show")
+     * @Route("/videogame/{id}", name="show")
      *
      */
     public function show(Request $request, $id)

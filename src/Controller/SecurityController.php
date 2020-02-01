@@ -35,13 +35,4 @@ class SecurityController extends AbstractController
         return $this->redirectToRoute('/login');
         throw new \Exception('This method can be blank - it will be intercepted by the logout key on your firewall');
     }
-
-    /**
-     * @Route("/admin", name="admin")
-     */
-    public function admin(){
-        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
-        return $this->redirectToRoute('/admin');
-    }
-
 }
