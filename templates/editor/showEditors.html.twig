@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+{% block title %}Editors{% endblock %}
+
+{% block body %}
+
+
+    <div class="container">
+        <div class="col-sm-8 mx-auto">
+            <ul>
+            {% for editor in editors %}
+                <li>
+                    <span>Name : {{ editor.name }}</span>
+                    <span>Nationnality : {{ editor.nationality }}</span>
+                    <br>
+                    <a href="/editor/{{ editor.id }}">Show this editor</a>
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+        <a href="/" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Retour</a>
+    </div>
+    
+{% endblock %}

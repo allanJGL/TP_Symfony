@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
 
-    <title>{% block title %}Welcome!{% endblock %}</title>
-
     {% block stylesheets %}
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
               integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
@@ -17,7 +15,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
             </li>
         </ul>
 
@@ -25,14 +23,13 @@
             <ul class="navbar-nav ml-auto">
                 {% if is_granted('ROLE_ADMIN') %}
                     <li class="nav-item">
-                        <a class="nav-link" href="/admin">Admin</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="/new/videogame">Add Videogame</a>
                     </li>
                 {% endif %}
                 <li class="nav-item">
-                    <a class="nav-link" href="/#">Account</a>
+                    {% if user is defined %}
+                        <a class="nav-link" href="/edit/user/{{ user.id }}">Account</a>
+                    {% endif %}
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/logout">Logout</a>
@@ -41,7 +38,7 @@
         {% else %}
             <ul class="navbar-nav ml-auto">
                 <li>
-                    <a class="nav-link" href="/register">Sign Up</a>
+                    <a class="nav-link" href="/new/user">Sign Up</a>
                 </li>
                 <li>
                     <a class="nav-link" href="/login">Login</a>
