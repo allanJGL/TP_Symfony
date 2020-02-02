@@ -6,10 +6,16 @@
 
     <div class="container">
         <div class="col-sm-8 mx-auto">
-                <h1>Name : {{ name }}</h1>
-                <span>Nationality : {{ nationality }}</span>
+            <h1>Name : {{ name }}</h1>
+            <span>Nationality : {{ nationality }}</span>
+            <h3>Videogames :</h3>
+            <ul>
+                {% for videogame in videogames %}
+                    <li>{{ videogame.title }}</li>
+                {% endfor %}
+            </ul>
         </div>
         <a href="/" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Retour</a>
     </div>
-    
+
 {% endblock %}

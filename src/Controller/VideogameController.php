@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Editor;
 use App\Entity\Videogame;
-use App\Form\SaveVideogameFormType;
+use App\Form\VideogameType;
+use App\Repository\EditorRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,20 +21,20 @@ class VideogameController extends AbstractController
     public function newVideogame(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
-        $video = new Videogame();
-        $form = $this->createForm(SaveVideogameFormType::class, $video);
+        $videogame = new Videogame();
+        $entityManager = $this->getDoctrine()->getManager();
+        $form = $this->createForm(VideogameType::class, $videogame);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($video);
+            $entityManager->persist($videogame);
             $entityManager->flush();
 
             return $this->redirectToRoute('home');
         }
 
         return $this->render('videogame/saveVideogame.html.twig', [
-            'registrationForm' => $form->createView(),
+            'registrationForm' => $form->createView()
         ]);
     }
 
@@ -49,6 +52,14 @@ class VideogameController extends AbstractController
             ->add('os')
             ->add('description')
             ->add('release_date', BirthdayType::class)
+            ->add('editor', EntityType::class, [
+                'class' => Editor::class,
+                'query_builder' => function (EditorRepository $editors) {
+                    return $editors->createQueryBuilder('e')
+                        ->orderBy('e.name');
+                },
+                'choice_label' => 'name',
+            ])
             ->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -93,8 +104,8 @@ class VideogameController extends AbstractController
     public function show(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $videogame = $em->find(Videogame::class, $id); 
-        return $this->render('videogame/showVideogame.html.twig', array(
+        $videogame = $em->find(Videogame::class, $id);
+        return $this->render('videogame/videogameDetails.html.twig', array(
             'title' => $videogame->getTitle(),
             'os' => $videogame->getOs(),
             'description' => $videogame->getDescription(),
