@@ -101,4 +101,42 @@ class UserController extends AbstractController
             'registrationForm' => $form->createView(),
         ]);
     }
+
+    /**
+     * Show a video entity.
+     *
+     * @Route("/users", name="showUsers")
+     *
+     */
+    public function show(Request $request)
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $em = $this->getDoctrine()->getManager()->getRepository(User::class);
+        $users = $em->findAll();
+
+        return $this->render('security/usersList.html.twig', array(
+            'users' => $users,
+        ));
+    }
+
+    /**
+     * Delete a userity.
+     *
+     * @Route("/delete/user/{id}", name="deleteUser")
+     *
+     */
+    public function delete(Request $request, $id)
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+        if (!$id) {
+            throw $this->createNotFoundException('No user found');
+        }
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->find(User::class, $id);
+        $em->remove($user);
+        $em->flush();
+        $this->addFlash('success', $user->getFirstName() . ' was deleted.');
+
+        return $this->redirectToRoute('home');
+    }
 }

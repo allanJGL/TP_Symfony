@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ firstName }}{% endblock %}
+
+{% block body %}
+
+
+    <div class="container">
+        <div class="col-sm-8 mx-auto">
+            {% for user in users %}
+                <h1>First name : {{ user.firstName }}</h1>
+                <span>Last name : {{ user.lastName }}</span>
+                <p>Email : {{ user.email }}</p>
+                <a href="/edit/user/{{ user.id }}">Edit</a>
+                <a href="/delete/user/{{ user.id }}">Delete</a>
+            {% endfor %}
+        </div>
+        <a href="/" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Retour</a>
+    </div>
+    
+{% endblock %}
