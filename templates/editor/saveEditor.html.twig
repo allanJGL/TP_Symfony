@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{% block title %}Save Editor{% endblock %}
+
+{% block body %}
+
+
+    <div class="container">
+        <div class="col-sm-8 mx-auto">
+            <h1>Save a editor</h1>
+            {{ form_start(registrationForm) }}
+            {{ form_row(registrationForm.name) }}
+            {{ form_row(registrationForm.nationality) }}
+
+            <div class="row">
+                <button class="btn btn-primary mx-auto">Save</button>
+            </div>
+            {{ form_end(registrationForm) }}
+        </div>
+    </div>
+{% endblock %}
