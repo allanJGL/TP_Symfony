@@ -101,4 +101,21 @@ class UserController extends AbstractController
             'registrationForm' => $form->createView(),
         ]);
     }
+
+    /**
+     * Show a video entity.
+     *
+     * @Route("/users", name="showUsers")
+     *
+     */
+    public function show(Request $request)
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $em = $this->getDoctrine()->getManager()->getRepository(User::class);
+        $users = $em->findAll();
+
+        return $this->render('security/usersList.html.twig', array(
+            'users' => $users,
+        ));
+    }
 }
