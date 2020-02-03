@@ -20,7 +20,8 @@ class EditorController extends AbstractController
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $em = $this->getDoctrine()->getManager()->getRepository(Editor::class);
         $editors = $em->findAll();
-        return $this->render('editor/showEditors.html.twig', array(
+
+        return $this->render('editor/editorsList.html.twig', array(
             'editors' => $editors,
         ));
     }
@@ -33,10 +34,11 @@ class EditorController extends AbstractController
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $entityManager = $this->getDoctrine()->getManager();
         $editor = $entityManager->getRepository(Editor::class)->find($id);
-        $form = $this->createFormBuilder($editor);
-        return $this->render('editor/showEditorVideos.html.twig', array(
+
+        return $this->render('editor/editorDetails.html.twig', array(
             'name' => $editor->getName(),
             'nationality' => $editor->getNationality(),
+            'videogames' => $editor->getVideogames(),
         ));
     }
 

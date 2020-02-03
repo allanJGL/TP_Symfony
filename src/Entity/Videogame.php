@@ -36,6 +36,11 @@ class Videogame
      */
     private $release_date;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Editor", inversedBy="videogames")
+     */
+    private $editor;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -85,6 +90,18 @@ class Videogame
     public function setReleaseDate(\DateTimeInterface $release_date): self
     {
         $this->release_date = $release_date;
+
+        return $this;
+    }
+
+    public function getEditor(): ?editor
+    {
+        return $this->editor;
+    }
+
+    public function setEditor(?editor $editor): self
+    {
+        $this->editor = $editor;
 
         return $this;
     }
